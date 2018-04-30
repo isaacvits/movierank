@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="utf-8">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+	href="./assets/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+</head>
+<body ng-app="MovieManagement" ng-controller="MovieController">
+
+	<div class="container ">
+		<div class="row justify-content-md-center my-5">
+			<div class="card border-0 pesquisa">
+				<div class="card-header px-0 py-0">
+					<ul class="categorias-list">
+						<li class="active" data-value="Action">Action</li>
+						<li data-value="Adventure">Adventure</li>
+						<li data-value="Animation">Animation</li>
+						<li data-value="Biography">Biography</li>
+						<li data-value="Crime">Crime</li>
+						<li data-value="Drama">Drama</li>
+						<li data-value="Family">Family</li>
+						<li data-value="Fantasy">Fantasy</li>
+						<li data-value="Ficção">Ficção</li>
+						<li data-value="Film-Noir">Film-Noir</li>
+						<li data-value="History">History</li>
+						<li data-value="Horror">Horror</li>
+						<li data-value="Music">Music</li>
+						<li data-value="Musical">Musical</li>
+						<li data-value="Mystery">Mystery</li>
+						<li data-value="Romance">Romance</li>
+						<li data-value="Sci-Fi">Sci-Fi</li>
+						<li data-value="Sport">Sport</li>
+						<li data-value="Thriller">Thriller</li>
+						<li data-value="War">War</li>
+						<li data-value="Sci-Fi">Western</li>
+					</ul>
+				</div>
+				<div class="card-body">
+					<form class="form" id="myForm">
+						<div class="input-group input-group-sm mySearch">
+							<div class="input-group-prepend">
+								<i class="fa fa-search"></i><span class="input-group-text"
+									data-label="Genre: Action" id="inputGroup-sizing-default"></span>
+							</div>
+							<input type="text" class="form-control" aria-label="default"
+								aria-describedby="inputGroup-sizing-default" id="user-query">
+						</div>
+
+						<div class="input-group ship filters"></div>
+
+						<div class="input-group mb-3 filter-box">
+							<div class="input-group-prepend">
+								<label class="input-group-text" for="inputGroupSelect01">Discovery</label>
+							</div>
+							<select class="custom-select" id="inputGroupSelect01">
+								<option selected disabled>Choose</option>
+								<option ng-model="movieField.rateStart"  value="Rate IMDB Greater">Rate IMDB Greater</option>
+								<option ng-model="movieField.rateEnd" value="Rate IMDB Lower">Rate IMDB Lower</option>
+								<option ng-model="movieField.yearStart" value="Year Greater">Year Greater</option>
+								<option ng-model="movieField.yearEnd" value="Year Lower">Year Lower</option>
+								<option ng-model="movieField.voteStart" value="Votes IMDB Greater">Votes IMDB Greater</option>
+								<option ng-model="movieField.voteEnd" value="Votes IMDB Lower">Votes IMDB Lower</option>
+							</select> <input type="text" class="form-control text-right" id="query"
+								aria-label="Text input with segmented dropdown button">
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="button" id="add">ADD</button>
+							</div>
+						</div>
+
+					</form>
+					<div class="result d-none">
+						<hr class="my-4">
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-md-center mt-5 cards mb-0"></div>
+		<div class="row mypaging">
+			<div class="container">
+				<nav aria-label="Page navigation">
+					<ul class="pagination justify-content-center my-3">
+						<li class="page-item disabled"><a class="page-link" href="#"
+							tabindex="-1">Previous</a></li>
+						<li class="page-item active"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">5</a></li>
+						<li class="page-item"><a class="page-link" href="#">6</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+	<script type="text/javascript" src="./assets/js/script.js?ver=1.0"></script>
+</body>
+</html>
