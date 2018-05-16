@@ -9,17 +9,18 @@ app
 
 					$scope.movies = [];
 					
-					$scope.movieField = {
-							title : "",
-							listGenres : "",
-							yearStart : "",
-							yearEnd : "",
-							rateStart : "",
-							rateEnd : "",
-							voteStart : "",
-							voteEnd : "",
-						};
-
+					var rateGreater = '';
+					
+					var rateLower= '';
+					
+					var yearGreater = '';
+					
+					var yearLower = '';
+					
+					var votesGreater = '';
+					
+					var votesLower = '';
+					
 					var filter = '';
 					var generoList = [ 'Action' ];
 					var userQuery = '';
@@ -139,10 +140,32 @@ app
 					// gera query
 					function update() {
 						
-						shipList = '';
+						
 						for (item in shipArray) {
-							shipList += ' AND "' + shipArray[item].filter
-									+ '" = "' + shipArray[item].valor + '"';
+							switch(shipArray[item].filter) {
+							
+							case 'Rate IMDB Greater':
+								rateGreater = shipArray[item].valor
+								break;
+							case 'Rate IMDB Lower':
+								rateLower = shipArray[item].valor
+								break;
+							case 'Year Greater':
+								yearGreater = shipArray[item].valor
+								break;
+							case 'Year Lower':
+								yearLower = shipArray[item].valor
+								break;
+							case 'Votes IMDB Greater':
+								votesGreater = shipArray[item].valor
+								break;
+							case 'Votes IMDB Lower':
+								votesLower = shipArray[item].valor
+								break;
+							default:
+								break;
+							}
+							
 						}
 						
 						$http({
@@ -151,12 +174,12 @@ app
 							params : {
 								title : userQuery,
 								listGenres : generoList,
-								yearStart : $scope.movieField.yearStart,
-								yearEnd : $scope.movieField.yearEnd,
-								rateStart : $scope.movieField.rateStart,
-								rateEnd : $scope.movieField.rateEnd,
-								voteStart : $scope.movieField.voteStart,
-								voteEnd : $scope.movieField.voteEnd
+								yearStart : yearGreater,
+								yearEnd : yearLower,
+								rateStart : rateGreater,
+								rateEnd : rateLower,
+								voteStart : votesGreater,
+								voteEnd : votesLower
 							}
 						}).then(function successCallback(response) {
 							$scope.movies = response.data;
@@ -179,7 +202,6 @@ app
 
 						for (movie in movies) {
 							template += '<div class="card-film card border-0 " style="background-image:url('
-									+ movies[movie].poster 
 									+ ')">'
 									+ '<div class="card-header px-0 py-0">'
 									+ '<span class="budge">IMDB</span>'

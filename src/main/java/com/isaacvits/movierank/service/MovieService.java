@@ -192,21 +192,21 @@ public class MovieService implements IMovieService {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(boolQueryBuilder).
 				withSort(sortBuilder).withSort(sortBuilder2).withPageable(page).build();
 		
-		Page<Movie> movies = iMovieRepository.search(searchQuery);
+		return iMovieRepository.search(searchQuery);
 		
 	
-		for (Movie movie : movies) {
-			URL omdb = NetworkUtils.buildUrl(ApiUrl.OmdbKeyID(movie.getImdbId()));
-			try {
-				String omdbResponse = NetworkUtils.getResponseFromHttpUrl(omdb);
-				JSONObject jsonOmdb = new JSONObject(omdbResponse);
-				movie.setPoster(jsonOmdb.getString("Poster"));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return movies;
+//		for (Movie movie : movies) {
+//			URL omdb = NetworkUtils.buildUrl(ApiUrl.OmdbKeyID(movie.getImdbId()));
+//			try {
+//				String omdbResponse = NetworkUtils.getResponseFromHttpUrl(omdb);
+//				JSONObject jsonOmdb = new JSONObject(omdbResponse);
+//				movie.setPoster(jsonOmdb.getString("Poster"));
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return movies;
 	}
 
 	public Movie findMovieById(String id) {
