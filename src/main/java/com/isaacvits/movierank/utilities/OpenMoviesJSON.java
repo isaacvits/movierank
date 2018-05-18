@@ -82,7 +82,7 @@ public class OpenMoviesJSON {
 				// m.setVoteAverage(movieForecast.getDouble(VOTE_AVERAGE));
 				// m.setReleaseDate(movieForecast.getString(RELEASE_DATE));
 
-				URL TMDB_DETAILS = NetworkUtils.buildUrl(ApiUrl.TmdbDetailsIdKeyEnglish(m.getImdbId().toString()));
+				URL TMDB_DETAILS = NetworkUtils.buildUrl(ApiUrl.TmdbDetailsIdKeyEnglish(m.getTconst().toString()));
 				String jsonTmdbDetailResponse;
 				try {
 					jsonTmdbDetailResponse = NetworkUtils.getResponseFromHttpUrl(TMDB_DETAILS);

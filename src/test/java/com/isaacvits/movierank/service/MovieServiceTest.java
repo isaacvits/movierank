@@ -16,10 +16,10 @@ public class MovieServiceTest extends TestCase {
 		System.out.println(" **** testSave ****");
 		IMovieService iMovieService = new MovieService();
 		Movie m = new Movie();
-		m.setImdbId("tt0000003");
+		m.setTconst("tt0000003");
 		m.setTitle("Pauvre Pierrot");
-		m.setImdbRating("6.6");
-		m.setImdbVotes(939);
+		m.setAverageRate("6.6");
+		m.setNumVotes(939);
 		m.setListGenres("Animation,Comedy,Romance");
 		m.setYear("1891");
 		iMovieService.save(m);
@@ -52,7 +52,7 @@ public class MovieServiceTest extends TestCase {
 		IMovieService movieService = new MovieService();
 		Page<Movie> movies = movieService.getListMovieVoteCount(20000, 50000);
 		for (Movie movie : movies) {
-			System.out.println(movie.getTitle() + " ---- " + movie.getImdbVotes());
+			System.out.println(movie.getTitle() + " ---- " + movie.getNumVotes());
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class MovieServiceTest extends TestCase {
 		IMovieService movieService = new MovieService();
 		Page<Movie> movies = movieService.getListMovieImdbRate(6.5, 8.0);
 		for (Movie movie : movies) {
-			System.out.println(movie.getTitle() + " ---- " + movie.getImdbRating());
+			System.out.println(movie.getTitle() + " ---- " + movie.getAverageRating());
 		}
 	}
 	
@@ -73,7 +73,7 @@ public class MovieServiceTest extends TestCase {
 		Page<Movie> movies = movieService.getListMovieImdbRateByVote(7.5, 8.0, 20000, 50000);
 		for (Movie movie : movies) {
 			System.out.println(movie.getTitle() + " ---- " + 
-		movie.getImdbRating() + " ----- " + movie.getImdbVotes());
+		movie.getAverageRating() + " ----- " + movie.getNumVotes());
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class MovieServiceTest extends TestCase {
 				50000, 1984, 1999);
 		for (Movie movie : movies) {
 			System.out.println(movie.getTitle() + " Rate: " + 
-		movie.getImdbRating() + " Votes: " + movie.getImdbVotes() + " Year: " + movie.getYear());
+		movie.getAverageRating() + " Votes: " + movie.getNumVotes() + " Year: " + movie.getYear());
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class MovieServiceTest extends TestCase {
 				50000, 1984, 1990, "Action");
 		for (Movie movie : movies) {
 			System.out.println(movie.getTitle() + " Rate: " + 
-		movie.getImdbRating() + " Votes: " + movie.getImdbVotes() + " Year: " + 
+		movie.getAverageRating() + " Votes: " + movie.getNumVotes() + " Year: " + 
 					movie.getYear() + " Genres: " + movie.getListGenres());
 		}
 	}
@@ -110,7 +110,7 @@ public class MovieServiceTest extends TestCase {
 				null, 1896, 1900, null, null);
 		for (Movie movie : movies) {
 			System.out.println(movie.getTitle() + " Rate: " + 
-		movie.getImdbRating() + " Votes: " + movie.getImdbVotes() + " Year: " + 
+		movie.getAverageRating() + " Votes: " + movie.getNumVotes() + " Year: " + 
 					movie.getYear() + " Genres: " + movie.getListGenres());
 		}
 	}

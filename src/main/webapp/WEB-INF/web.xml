@@ -11,6 +11,12 @@
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet>  
+	     <servlet-name>ExecutadorImportador</servlet-name>  
+	     <servlet-class>com.isaacvits.movierank.importador.ExecutadorImportadorServlet</servlet-class>  
+      	 <load-on-startup>1</load-on-startup>    
+    </servlet>
 
 	<servlet-mapping>
 		<servlet-name>springrest</servlet-name>

@@ -14,14 +14,14 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class Movie {
 
 	@Id
-	private String imdbId;
+	private String tconst;
 	private String title;
 	private String year;
 	private String listGenres;
 	private String poster;
 	// private String rottenRate;
-	private String imdbRating;
-	private Integer imdbVotes;
+	private String averageRating;
+	private Integer numVotes;
 	// private String year;
 	// private String originalTitle;
 	// private String originalLanguage;
@@ -56,28 +56,28 @@ public class Movie {
 		this.poster = poster;
 	}
 
-	public String getImdbRating() {
-		return imdbRating;
+	public String getAverageRating() {
+		return averageRating;
 	}
 
-	public void setImdbRating(String imdbRating) {
-		this.imdbRating = imdbRating;
+	public void setAverageRate(String averageRating) {
+		this.averageRating = averageRating;
 	}
 
-	public Integer getImdbVotes() {
-		return imdbVotes;
+	public Integer getNumVotes() {
+		return numVotes;
 	}
 
-	public void setImdbVotes(Integer imdbVotes) {
-		this.imdbVotes = imdbVotes;
+	public void setNumVotes (Integer numVotes) {
+		this.numVotes = numVotes;
 	}
 
-	public String getImdbId() {
-		return imdbId;
+	public String getTconst() {
+		return tconst;
 	}
 
-	public void setImdbId(String imdbId) {
-		this.imdbId = imdbId;
+	public void setTconst(String tconst) {
+		this.tconst = tconst;
 	}
 
 	public String getTitle() {
@@ -96,7 +96,6 @@ public class Movie {
 		this.year = releaseDate;
 	}
 
-	
 //	public String getRottenRate() {
 //		return rottenRate;
 //	}

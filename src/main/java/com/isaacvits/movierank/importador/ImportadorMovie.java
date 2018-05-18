@@ -1,7 +1,18 @@
 package com.isaacvits.movierank.importador;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.zip.GZIPInputStream;
 
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.constraint.NotNull;
@@ -10,7 +21,9 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
-
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBool;
 
@@ -19,11 +32,16 @@ import com.isaacvits.movierank.model.MovieSupport;
 import com.isaacvits.movierank.service.IMovieService;
 import com.isaacvits.movierank.service.MovieService;
 
-public class ImportadorMovie {
+public class ImportadorMovie implements Job{
 
-	private static final String TSV_FILENAME_DATA_RATING = "src/main/resources/data.tsv";
-	private static final String TSV_FILENAME_TITLE = "src/main/resources/data2.tsv";
-
+	private static final String TSV_FILENAME_DATA_RATING = "/home/vitor/rate.tsv";
+	private static final String TSV_FILENAME_TITLE = "/home/vitor/title.tsv";
+	private static final String URL_DATA_RATE = "https://datasets.imdbws.com/title.ratings.tsv.gz";
+	private static final String URL_DATA_TITLE = "https://datasets.imdbws.com/title.basics.tsv.gz";
+	private static final String PATH_LOCAL ="/home/vitor/";
+	private static final String OUT_FILE_RATE = "rate.tsv";
+	private static final String OUT_FILE_TITLE = "title.tsv";
+ 	
 	private IMovieService iMovieService;
 
 	public ImportadorMovie() {
@@ -32,11 +50,54 @@ public class ImportadorMovie {
 
 	public void Importar() {
 		try {
+			
+			File rate = baixarArquivo(URL_DATA_RATE);
+			
+			File title = baixarArquivo(URL_DATA_TITLE);
+			
+			descomprimirArquivo(rate, OUT_FILE_RATE);
+			descomprimirArquivo(title, OUT_FILE_TITLE);
+			
 			readWithTsvBeanReader();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void descomprimirArquivo(File rate, String outFile) throws IOException, FileNotFoundException {
+		GZIPInputStream in = new GZIPInputStream (new BufferedInputStream (new FileInputStream (rate)));
+		
+		String outFilename = outFile;
+		OutputStream out = new FileOutputStream(PATH_LOCAL+outFilename);
+		
+		byte[] buf = new byte[1024];
+		int len;
+		while ((len = in.read(buf)) > 0) {
+		    out.write(buf, 0, len);
+		}
+		// Close the file and stream
+		in.close();
+		out.close();
+	}
+
+	private File baixarArquivo(String URL) throws MalformedURLException, IOException, FileNotFoundException {
+		URL url = new URL(URL);
+		
+		String nomeArquivoLocalRate = url.getPath();
+		
+		InputStream is = url.openStream();
+		
+		FileOutputStream fos = new FileOutputStream(PATH_LOCAL+nomeArquivoLocalRate);
+		
+		int umByte = 0;
+		while ((umByte = is.read()) != -1){
+			fos.write(umByte);
+		}
+		
+		is.close();
+		fos.close();
+		return new File(PATH_LOCAL+nomeArquivoLocalRate);
 	}
 
 	private static CellProcessor[] getProcessorsRatings() {
@@ -70,17 +131,17 @@ public class ImportadorMovie {
 
 			while ((movie = beanReader.read(Movie.class, header, processors)) != null) {
 
-				if (iMovieService.existMovie(movie.getImdbId())) {
-					movieExist = iMovieService.findMovieById(movie.getImdbId());
-					movieExist.setImdbRating(movie.getImdbRating());
-					movieExist.setImdbVotes(movie.getImdbVotes());
+				if (iMovieService.existMovie(movie.getTconst())) {
+					movieExist = iMovieService.findMovieById(movie.getTconst());
+					movieExist.setAverageRate(movie.getAverageRating());
+					movieExist.setNumVotes(movie.getNumVotes());
 					iMovieService.save(movieExist);
 				} else {
 					boolean encontrou = false;
 					try {
 						while (!encontrou) {
 							movieTitle = beanReaderTitle.read(MovieSupport.class, headerTitle, processorsTitle);
-							if (movieTitle.getTconst().equals(movie.getImdbId())) {
+							if (movieTitle.getTconst().equals(movie.getTconst())) {
 								movie.setTitle(movieTitle.getOriginalTitle());
 								movie.setListGenres(movieTitle.getGenres());
 								if (!movieTitle.getStartYear().equals("\\N")) {
@@ -91,9 +152,9 @@ public class ImportadorMovie {
 						}
 						iMovieService.save(movie);
 					} catch (Exception e) {
-						System.out.println("*** Id do filme que deu problema: **** " + movie.getImdbId() + " ---- "
+						System.out.println("*** Id do filme que deu problema: **** " + movie.getTconst() + " ---- "
 								+ e.getMessage());
-						writer.println("*** Id do filme que deu problema: **** " + movie.getImdbId() + " ---- "
+						writer.println("*** Id do filme que deu problema: **** " + movie.getTconst() + " ---- "
 								+ e.getMessage());
 					}
 				}
@@ -111,6 +172,11 @@ public class ImportadorMovie {
 			}
 			writer.close();
 		}
+	}
+
+	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+		// TODO Auto-generated method stub
+		System.out.println("--------- Teste --------");
 	}
 
 }
