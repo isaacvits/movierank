@@ -128,7 +128,7 @@ app
 						$http(
 								{
 									method : 'GET',
-									url : 'http://localhost:8080/movierank/moviesNowPlaying'
+									url : '/movierank/moviesNowPlaying'
 								}).then(function successCallback(response) {
 							$scope.movies = response.data;
 							createCards($scope.movies);
@@ -170,7 +170,7 @@ app
 						
 						$http({
 							method : 'GET',
-							url : 'http://localhost:8080/movierank/getListMovieDiscovery',
+							url : '/movierank/getListMovieDiscovery',
 							params : {
 								title : userQuery,
 								listGenres : generoList,
@@ -179,7 +179,7 @@ app
 								rateStart : rateGreater,
 								rateEnd : rateLower,
 								voteStart : votesGreater,
-								voteEnd : votesLower
+								voteEnd : votesLower,
 							}
 						}).then(function successCallback(response) {
 							$scope.movies = response.data;
@@ -189,11 +189,7 @@ app
 						});
 						
 
-						query = 'SELECT' + ' campos '
-								+ 'FROM {TABELA} WHERE genero="' + generoList
-								+ '" AND filme ="' + userQuery + '"' + shipList
-								+ ';';
-						$('.prompt').attr('data-query', query);
+			
 					}
 
 					function createCards(movies) {
@@ -202,6 +198,7 @@ app
 
 						for (movie in movies) {
 							template += '<div class="card-film card border-0 " style="background-image:url('
+									+ '/movierank/moviePoster?tconst=' + movies[movie].tconst 
 									+ ')">'
 									+ '<div class="card-header px-0 py-0">'
 									+ '<span class="budge">IMDB</span>'
@@ -223,16 +220,16 @@ app
 									+ movies[movie].year
 									+ '</li>'
 									+ '<li class="votes">'
-									+ movies[movie].imdbVotes
+									+ movies[movie].numVotes
 									+ '</li>'
 									+ '<li class="rate">'
-									+ movies[movie].imdbRating
+									+ movies[movie].averageRating
 									+ '</li>'
 									+ '</ul>'
 									+ '</div>'
 									+ '</div>'
 									+ '<div class="card-footer p-0">'
-									+ '<a href="https://www.imdb.com/title/' + movies[movie].imdbId 
+									+ '<a href="https://www.imdb.com/title/' + movies[movie].tconst 
 									+ '" class="btn d-block">More Information</a>'
 									+ '</div>' + '</div>';
 						}

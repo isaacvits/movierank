@@ -70,8 +70,7 @@ public class MovieService implements IMovieService {
 	}
 
 	public Page<Movie> getListMovieVoteCount(Integer startCount, Integer endCount) {
-		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("imdbVotes").gte(startCount).lte(endCount)
-				.boost(10);
+		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("numVotes").gte(startCount).lte(endCount).boost(10);
 
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(rangeQueryBuilder).build();
 
@@ -79,7 +78,7 @@ public class MovieService implements IMovieService {
 	}
 
 	public Page<Movie> getListMovieImdbRate(Double startRate, Double endRate) {
-		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("imdbRating").gte(startRate).lte(endRate);
+		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("averageRating").gte(startRate).lte(endRate);
 
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(rangeQueryBuilder).build();
 
@@ -88,8 +87,8 @@ public class MovieService implements IMovieService {
 
 	public Page<Movie> getListMovieImdbRateByVote(Double startRate, Double endRate, Integer startCount,
 			Integer endCount) {
-		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("imdbRating").gte(startRate).lte(endRate);
-		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("imdbVotes").gte(startCount).lte(endCount);
+		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("averageRating").gte(startRate).lte(endRate);
+		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("numVotes").gte(startCount).lte(endCount);
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(rangeQueryBuilder)
 				.withFilter(rangeQueryBuilder2).build();
 
@@ -99,8 +98,8 @@ public class MovieService implements IMovieService {
 	public Page<Movie> getListMovieImdbRateByVoteByDate(Double startRate, Double endRate, Integer startCount,
 			Integer endCount, Integer startYear, Integer endYear) {
 
-		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("imdbRating").gte(startRate).lte(endRate);
-		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("imdbVotes").gte(startCount).lte(endCount);
+		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("averageRating").gte(startRate).lte(endRate);
+		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("numVotes").gte(startCount).lte(endCount);
 		RangeQueryBuilder rangeQueryBuilder3 = new RangeQueryBuilder("year").gte(startYear).lte(endYear);
 
 		BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder().must(rangeQueryBuilder).must(rangeQueryBuilder2)
@@ -112,8 +111,8 @@ public class MovieService implements IMovieService {
 
 	public Page<Movie> getListMovieImdbRateByVoteByDateByGenre(Double startRate, Double endRate, Integer startCount,
 			Integer endCount, Integer startYear, Integer endYear, String genres) {
-		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("imdbRating").gte(startRate).lte(endRate);
-		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("imdbVotes").gte(startCount).lte(endCount);
+		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("averageRating").gte(startRate).lte(endRate);
+		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("numVotes").gte(startCount).lte(endCount);
 		RangeQueryBuilder rangeQueryBuilder3 = new RangeQueryBuilder("year").gte(startYear).lte(endYear);
 		MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("listGenres", genres);
 
@@ -127,76 +126,75 @@ public class MovieService implements IMovieService {
 	public Page<Movie> getListMovieImdbRateByVoteByDateByGenreByName(Double startRate, Double endRate,
 			Integer startCount, Integer endCount, Integer startYear, Integer endYear, String genres, String title) {
 		List<QueryBuilder> queryBuilders = new ArrayList<QueryBuilder>();
-		
-		if(title != null && !title.isEmpty()) {
+
+		if (title != null && !title.isEmpty()) {
 			MatchQueryBuilder matchQueryBuilder2 = new MatchQueryBuilder("title", title).minimumShouldMatch("100%");
 			queryBuilders.add(matchQueryBuilder2);
 		}
-		
-		if(genres != null && !genres.isEmpty()) {
+
+		if (genres != null && !genres.isEmpty()) {
 			MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("listGenres", genres);
 			queryBuilders.add(matchQueryBuilder);
 		}
-		
-		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("imdbRating");
-		if(startRate != null && !startRate.isNaN()) {
+
+		RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("averageRating");
+		if (startRate != null && !startRate.isNaN()) {
 			rangeQueryBuilder.gte(startRate);
 		}
-		
-		if(endRate != null && !endRate.isNaN()) {
+
+		if (endRate != null && !endRate.isNaN()) {
 			rangeQueryBuilder.lte(endRate);
 		}
-		
-		if((startRate != null && !startRate.isNaN()) || (endRate != null && !endRate.isNaN())) {
+
+		if ((startRate != null && !startRate.isNaN()) || (endRate != null && !endRate.isNaN())) {
 			rangeQueryBuilder.boost(5.0f);
 			queryBuilders.add(rangeQueryBuilder);
 		}
-		
-		
-		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("imdbVotes");
-		if(startCount != null) {
+
+		RangeQueryBuilder rangeQueryBuilder2 = new RangeQueryBuilder("numVotes");
+		if (startCount != null) {
 			rangeQueryBuilder2.gte(startCount);
 		}
-		
-		if(endCount != null) {
+
+		if (endCount != null) {
 			rangeQueryBuilder2.lte(endCount);
 		}
-		
-		if(startCount != null  || endCount != null) {
+
+		if (startCount != null || endCount != null) {
 			rangeQueryBuilder2.boost(10.0f);
 			queryBuilders.add(rangeQueryBuilder2);
 		}
-		
+
 		RangeQueryBuilder rangeQueryBuilder3 = new RangeQueryBuilder("year");
-		if(startYear != null) {
+		if (startYear != null) {
 			rangeQueryBuilder3.gte(startYear);
 		}
-		
-		if(endYear != null) {
+
+		if (endYear != null) {
 			rangeQueryBuilder3.lte(endYear);
 		}
-		
-		if(startYear != null  || endYear != null) {
+
+		if (startYear != null || endYear != null) {
 			queryBuilders.add(rangeQueryBuilder3);
 		}
-				
+
 		BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
 		for (QueryBuilder queryBuilder : queryBuilders) {
 			boolQueryBuilder.must(queryBuilder);
 		}
-		SortBuilder sortBuilder = new FieldSortBuilder("imdbVotes").order(SortOrder.DESC);
-		SortBuilder sortBuilder2 = new FieldSortBuilder("imdbRating").order(SortOrder.DESC);
-		
+		SortBuilder sortBuilder = new FieldSortBuilder("numVotes").order(SortOrder.DESC);
+		SortBuilder sortBuilder2 = new FieldSortBuilder("averageRating").order(SortOrder.DESC);
+
 		Pageable page = new PageRequest(0, 8);
-		
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(boolQueryBuilder).
-				withSort(sortBuilder).withSort(sortBuilder2).withPageable(page).build();
-		
+
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(boolQueryBuilder).withSort(sortBuilder)
+				.withSort(sortBuilder2).withPageable(page).build();
+
 		return iMovieRepository.search(searchQuery);
-		
-	
-//		for (Movie movie : movies) {
-//			URL omdb = NetworkUtils.buildUrl(ApiUrl.OmdbKeyID(movie.getImdbId()));
+
+		//for (Movie movie : movies) {
+			//movie.setPoster("http://img.omdbapi.com/?i=" + movie.getTconst() + "&h=600&apikey=80e7475c");
+//			URL omdb = NetworkUtils.buildUrl(ApiUrl.OmdbKeyID(movie.getTconst()));
 //			try {
 //				String omdbResponse = NetworkUtils.getResponseFromHttpUrl(omdb);
 //				JSONObject jsonOmdb = new JSONObject(omdbResponse);
@@ -205,14 +203,14 @@ public class MovieService implements IMovieService {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-//		}
-//		return movies;
+		//}
+		//return movies;
 	}
 
 	public Movie findMovieById(String id) {
 		return iMovieRepository.findOne(id);
 	}
-	
+
 	public boolean existMovie(String id) {
 		return iMovieRepository.exists(id);
 	}

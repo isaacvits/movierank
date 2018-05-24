@@ -48,7 +48,7 @@ public class ImportadorMovie implements Job{
 		iMovieService = new MovieService();
 	}
 
-	public void Importar() {
+	public void importar() {
 		try {
 			
 			File rate = baixarArquivo(URL_DATA_RATE);
@@ -133,7 +133,7 @@ public class ImportadorMovie implements Job{
 
 				if (iMovieService.existMovie(movie.getTconst())) {
 					movieExist = iMovieService.findMovieById(movie.getTconst());
-					movieExist.setAverageRate(movie.getAverageRating());
+					movieExist.setAverageRating(movie.getAverageRating());
 					movieExist.setNumVotes(movie.getNumVotes());
 					iMovieService.save(movieExist);
 				} else {
@@ -163,6 +163,7 @@ public class ImportadorMovie implements Job{
 			long tempoFinal = System.currentTimeMillis();
 			float tempoTotal = (tempoFinal - tempoInicio) / 1000;
 			System.out.println("***************** Tempo de Importação:" + tempoTotal);
+			marcarNowPlaying();
 		} finally {
 			if (beanReader != null) {
 				beanReader.close();
@@ -174,9 +175,13 @@ public class ImportadorMovie implements Job{
 		}
 	}
 
+	private void marcarNowPlaying() {
+		
+		
+	}
+
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		// TODO Auto-generated method stub
-		System.out.println("--------- Teste --------");
+		//importar();
 	}
 
 }

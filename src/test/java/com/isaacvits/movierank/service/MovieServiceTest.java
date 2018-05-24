@@ -18,7 +18,7 @@ public class MovieServiceTest extends TestCase {
 		Movie m = new Movie();
 		m.setTconst("tt0000003");
 		m.setTitle("Pauvre Pierrot");
-		m.setAverageRate("6.6");
+		m.setAverageRating("6.6");
 		m.setNumVotes(939);
 		m.setListGenres("Animation,Comedy,Romance");
 		m.setYear("1891");

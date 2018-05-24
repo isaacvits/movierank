@@ -17,7 +17,7 @@ public class ImportadorMovieTest {
 	@Test
 	public void testImportar() {
 		if (importar) {
-			importadorMovie.Importar();
+			importadorMovie.importar();
 		}
 	}
 
