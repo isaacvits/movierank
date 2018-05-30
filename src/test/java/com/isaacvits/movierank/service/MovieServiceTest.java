@@ -107,7 +107,7 @@ public class MovieServiceTest extends TestCase {
 		System.out.println(" **** testGetListMovieImdbRateByVoteByDateByGenreByName ****");
 		IMovieService movieService = new MovieService();
 		Page<Movie> movies = movieService.getListMovieImdbRateByVoteByDateByGenreByName(null, null, null,
-				null, 1896, 1900, null, null);
+				null, 1896, 1900, null, null, 8);
 		for (Movie movie : movies) {
 			System.out.println(movie.getTitle() + " Rate: " + 
 		movie.getAverageRating() + " Votes: " + movie.getNumVotes() + " Year: " + 

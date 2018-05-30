@@ -289,16 +289,16 @@ html, body,
 	position: relative;
 }
 .card-film .card-body .status-list li.votes{
-	text-indent: 30px;
+	text-indent: 5px;
 }
-.card-film .card-body .status-list li.votes:before{
+.card-film .card-body .status-list li.votes:after{
 	content: 'Votes';
-	position: absolute;
+	position: relative;
 	top: 50%;
-	left: -26px;
-	color: #fff;
+	color: #333;
 	transform: translate(0%, -51%);
-	font-size: 11px;
+	font-size: 13px;
+	margin-left: 5px
 }
 .card-film .card-body .status-list li:last-child{
 	float: right;

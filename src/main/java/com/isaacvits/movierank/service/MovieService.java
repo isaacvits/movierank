@@ -124,7 +124,7 @@ public class MovieService implements IMovieService {
 	}
 
 	public Page<Movie> getListMovieImdbRateByVoteByDateByGenreByName(Double startRate, Double endRate,
-			Integer startCount, Integer endCount, Integer startYear, Integer endYear, String genres, String title) {
+			Integer startCount, Integer endCount, Integer startYear, Integer endYear, String genres, String title, int qtd) {
 		List<QueryBuilder> queryBuilders = new ArrayList<QueryBuilder>();
 
 		if (title != null && !title.isEmpty()) {
@@ -133,7 +133,7 @@ public class MovieService implements IMovieService {
 		}
 
 		if (genres != null && !genres.isEmpty()) {
-			MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("listGenres", genres);
+			MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("listGenres", genres).minimumShouldMatch("100%");
 			queryBuilders.add(matchQueryBuilder);
 		}
 
@@ -185,26 +185,12 @@ public class MovieService implements IMovieService {
 		SortBuilder sortBuilder = new FieldSortBuilder("numVotes").order(SortOrder.DESC);
 		SortBuilder sortBuilder2 = new FieldSortBuilder("averageRating").order(SortOrder.DESC);
 
-		Pageable page = new PageRequest(0, 8);
+		Pageable page = new PageRequest(0, qtd);
 
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(boolQueryBuilder).withSort(sortBuilder)
 				.withSort(sortBuilder2).withPageable(page).build();
 
 		return iMovieRepository.search(searchQuery);
-
-		//for (Movie movie : movies) {
-			//movie.setPoster("http://img.omdbapi.com/?i=" + movie.getTconst() + "&h=600&apikey=80e7475c");
-//			URL omdb = NetworkUtils.buildUrl(ApiUrl.OmdbKeyID(movie.getTconst()));
-//			try {
-//				String omdbResponse = NetworkUtils.getResponseFromHttpUrl(omdb);
-//				JSONObject jsonOmdb = new JSONObject(omdbResponse);
-//				movie.setPoster(jsonOmdb.getString("Poster"));
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-		//}
-		//return movies;
 	}
 
 	public Movie findMovieById(String id) {
@@ -213,6 +199,10 @@ public class MovieService implements IMovieService {
 
 	public boolean existMovie(String id) {
 		return iMovieRepository.exists(id);
+	}
+
+	public Page<Movie> getMovie(Pageable pageable) {
+		return iMovieRepository.findAll(pageable);
 	}
 
 }

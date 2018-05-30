@@ -3,6 +3,7 @@ package com.isaacvits.movierank.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.isaacvits.movierank.model.Movie;
 
@@ -28,7 +29,9 @@ public interface IMovieService {
 			Integer startCount, Integer endCount, Integer startYear, Integer endYear, String genres);
 	
 	public Page<Movie> getListMovieImdbRateByVoteByDateByGenreByName(Double startRate, Double endRate, Integer startCount,
-			Integer endCount, Integer startYear, Integer endYear, String genres, String title);
+			Integer endCount, Integer startYear, Integer endYear, String genres, String title, int qtd);
+	
+	public Page<Movie> getMovie(Pageable pageable);
 	
 	public Movie findMovieById(String id);
 	
