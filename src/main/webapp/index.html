@@ -1,7 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title></title>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async
+	src="https://www.googletagmanager.com/gtag/js?id=UA-120198963-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-120198963-1');
+</script>
+<!-- Google Tag Manager -->
+<script>
+	(function(w, d, s, l, i) {
+		w[l] = w[l] || [];
+		w[l].push({
+			'gtm.start' : new Date().getTime(),
+			event : 'gtm.js'
+		});
+		var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l='
+				+ l
+				: '';
+		j.async = true;
+		j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+		f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'dataLayer', 'GTM-PS8FDCK');
+</script>
+<!-- End Google Tag Manager -->
+
+<title>Movies Discovery</title>
+<meta name="description" content="Movies Discovery the easy way to find, search and discovery movies and series." />
+<meta name="robots" content="nofollow" />
+<meta name="google" content="nositelinkssearchbox" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta charset="utf-8">
@@ -15,7 +48,12 @@
 
 </head>
 <body ng-app="MovieManagement" ng-controller="MovieController">
-
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PS8FDCK"
+			height="0" width="0" style="display: none; visibility: hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
 	<div class="container ">
 		<div class="row justify-content-md-center my-5">
 			<div class="card border-0 pesquisa">
@@ -63,12 +101,18 @@
 							</div>
 							<select class="custom-select" id="inputGroupSelect01">
 								<option selected disabled>Choose</option>
-								<option ng-model="movieField.rateStart"  value="Rate IMDB Greater">Rate IMDB Greater</option>
-								<option ng-model="movieField.rateEnd" value="Rate IMDB Lower">Rate IMDB Lower</option>
-								<option ng-model="movieField.yearStart" value="Year Greater">Year Greater</option>
-								<option ng-model="movieField.yearEnd" value="Year Lower">Year Lower</option>
-								<option ng-model="movieField.voteStart" value="Votes IMDB Greater">Votes IMDB Greater</option>
-								<option ng-model="movieField.voteEnd" value="Votes IMDB Lower">Votes IMDB Lower</option>
+								<option ng-model="movieField.rateStart"
+									value="Rate IMDB Greater">Rate IMDB Greater</option>
+								<option ng-model="movieField.rateEnd" value="Rate IMDB Lower">Rate
+									IMDB Lower</option>
+								<option ng-model="movieField.yearStart" value="Year Greater">Year
+									Greater</option>
+								<option ng-model="movieField.yearEnd" value="Year Lower">Year
+									Lower</option>
+								<option ng-model="movieField.voteStart"
+									value="Votes IMDB Greater">Votes IMDB Greater</option>
+								<option ng-model="movieField.voteEnd" value="Votes IMDB Lower">Votes
+									IMDB Lower</option>
 							</select> <input type="text" class="form-control text-right" id="query"
 								aria-label="Text input with segmented dropdown button">
 							<div class="input-group-append">
@@ -90,26 +134,26 @@
 			<div class="container">
 				<nav aria-label="Page navigation">
 					<ul class="pagination justify-content-center my-3">
-						<li class="page-item" id="moreItem"><button class="page-link" id="buttonNext">More</button>
-						</li>
+						<li class="page-item" id="moreItem"><button class="page-link"
+								id="buttonNext">More</button></li>
 					</ul>
 				</nav>
 			</div>
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	<script async src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>
-	<script
+	<script async
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
 		crossorigin="anonymous"></script>
-	<script
+	<script async
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+	<script async
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
 	<script type="text/javascript" src="./assets/js/script.js?ver=1.0"></script>
 </body>
 </html>
