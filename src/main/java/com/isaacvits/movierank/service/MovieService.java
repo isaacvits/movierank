@@ -31,6 +31,9 @@ import com.isaacvits.movierank.utilities.OpenMoviesJSON;
 
 @Service
 public class MovieService implements IMovieService {
+	
+	private final static String RESULTS = "results";
+	private final static String ID = "id";
 
 	private IMovieRepository iMovieRepository;
 
@@ -48,9 +51,16 @@ public class MovieService implements IMovieService {
 		String jsonResponse;
 		try {
 			jsonResponse = NetworkUtils.getResponseFromHttpUrl(tmdb);
+			JSONObject forecastJson = new JSONObject(jsonResponse);
+			JSONArray movieArray = forecastJson.getJSONArray(RESULTS);
+			
+			for (int i = 0; i < 10; i++) {
+				JSONObject movieForecast = movieArray.getJSONObject(i);
+				URL TMDB_IMDB = NetworkUtils.buildUrl(ApiUrl.TmdbDetailsIdKeyEnglish(movieForecast.getString(ID)));
+			}
 			List<Movie> listMovieNowPlaying = OpenMoviesJSON.getNowPlayingMovies(jsonResponse);
 			return listMovieNowPlaying;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
