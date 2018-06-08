@@ -26,15 +26,24 @@ public class MovieServiceTest extends TestCase {
 	}
 	
 
-//	@Test
-//	public void testGetMoviesNowPlaying() {
-//		IMovieService movieService = new MovieService();
-//		List<Movie> movies = movieService.getMoviesNowPlaying();
-//		for (Movie movie : movies) {
-//			System.out.println(movie.getTitle());
-//		}
-//		assertNotNull("Filmes", movies);
-//	}
+	@Test
+	public void testGetMoviesNowPlaying() {
+		System.out.println(" **** testGetMoviesNowPlaying ****");
+		IMovieService movieService = new MovieService();
+		Page<Movie> movies = movieService.getMoviesNowPlaying(8);
+		for (Movie movie : movies) {
+			System.out.println(movie.getTitle());
+		}
+		System.out.println(" **** EXECUTOU ****");
+	}
+	
+	@Test
+	public void testSetMoviesNowPlaying() {
+		System.out.println(" **** testSetMoviesNowPlaying ****");
+		IMovieService movieService = new MovieService();
+		movieService.setMoviesNowPlaying();
+		System.out.println(" **** EXECUTOU ****");
+	}
 	
 	@Test
 	public void testGetListMovieByTitle() {

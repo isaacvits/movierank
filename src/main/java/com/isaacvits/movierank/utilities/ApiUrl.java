@@ -18,6 +18,7 @@ public class ApiUrl {
     public final static String TMDB_ENGLISH = "en-US";
     public final static String TMDB_PORTUGUESE = "pt-BR";
     public final static String TMDB_NOW_PLAYING = "https://api.themoviedb.org/3/movie/now_playing?";
+    public final static String TMDB_POPULAR = "https://api.themoviedb.org/3/movie/popular?";
     public final static String TMDB_DETAILS = "https://api.themoviedb.org/3/movie/";
     public final static String TMDB_DISCOVER = "https://api.themoviedb.org/3/discover/movie?";
     public final static String TMDB_FIND_IMDB = "https://api.themoviedb.org/3/find/";
@@ -46,6 +47,10 @@ public class ApiUrl {
         return TMDB_NOW_PLAYING + TMDB_KEY + AD_PARAMETRO + TMDB_LANGUAGES + AD_PARAMETRO + TMDB_PORTUGUESE +AD_PARAMETRO + TMDB_PAGE + "1";
     }
     
+    public final static String TmdbURLPopularKeyEnglish(){
+        return TMDB_POPULAR + TMDB_KEY + AD_PARAMETRO + TMDB_LANGUAGES + AD_PARAMETRO + TMDB_ENGLISH +AD_PARAMETRO + TMDB_PAGE + "1";
+    }
+    
 
     public final static String TmdbURLIMDB(String idImdb){
         return TMDB_FIND_IMDB + idImdb + "?" + TMDB_KEY + AD_PARAMETRO + TMDB_LANGUAGES + AD_PARAMETRO + TMDB_PORTUGUESE +AD_PARAMETRO + EXTERNAL_RESOURCES_IMDB;
@@ -61,6 +66,10 @@ public class ApiUrl {
 
     public final static String TmdbDetailsIdKeyEnglish(String id){
         return TMDB_DETAILS + id + "?" + TMDB_KEY + AD_PARAMETRO + TMDB_LANGUAGES + TMDB_ENGLISH;
+    }
+    
+    public final static String TmdbExternalIdKey(String id){
+        return TMDB_DETAILS + id + "/" + "external_ids" + "?" + TMDB_KEY;
     }
 
     public final static String OMDBKeyTitle(String title){

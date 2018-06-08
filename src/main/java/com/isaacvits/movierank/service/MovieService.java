@@ -46,25 +46,31 @@ public class MovieService implements IMovieService {
 		this.iMovieRepository = iMovieRepository;
 	}
 
-	public List<Movie> getMoviesNowPlaying() {
-		URL tmdb = NetworkUtils.buildUrl(ApiUrl.TmdbURLNowPlayingKeyEnglish());
+	public void setMoviesNowPlaying() {
+		URL tmdb = NetworkUtils.buildUrl(ApiUrl.TmdbURLPopularKeyEnglish());
 		String jsonResponse;
 		try {
 			jsonResponse = NetworkUtils.getResponseFromHttpUrl(tmdb);
 			JSONObject forecastJson = new JSONObject(jsonResponse);
 			JSONArray movieArray = forecastJson.getJSONArray(RESULTS);
 			
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < movieArray.length(); i++) {
 				JSONObject movieForecast = movieArray.getJSONObject(i);
-				URL TMDB_IMDB = NetworkUtils.buildUrl(ApiUrl.TmdbDetailsIdKeyEnglish(movieForecast.getString(ID)));
+				URL TMDB_IMDB = NetworkUtils.buildUrl(ApiUrl.TmdbExternalIdKey(movieForecast.getString(ID)));
+				String jsonResponseImdb = NetworkUtils.getResponseFromHttpUrl(TMDB_IMDB);
+				JSONObject imdb = new JSONObject(jsonResponseImdb);
+				Movie m = findMovieById(imdb.getString("imdb_id"));
+				if(m != null) {
+					m.setNowPlaying("S");
+					save(m);
+				} else {
+					System.out.println("Filme: " + imdb.getString("imdb_id") + " não encontrado");
+				}
 			}
-			List<Movie> listMovieNowPlaying = OpenMoviesJSON.getNowPlayingMovies(jsonResponse);
-			return listMovieNowPlaying;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	public Movie save(Movie movie) {
@@ -213,6 +219,19 @@ public class MovieService implements IMovieService {
 
 	public Page<Movie> getMovie(Pageable pageable) {
 		return iMovieRepository.findAll(pageable);
+	}
+
+	public Page<Movie> getMoviesNowPlaying(int qtd) {
+		MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("nowPlaying", "S").minimumShouldMatch("100%");
+		SortBuilder sortBuilder = new FieldSortBuilder("numVotes").order(SortOrder.DESC);
+		SortBuilder sortBuilder2 = new FieldSortBuilder("averageRating").order(SortOrder.DESC);
+
+		Pageable page = new PageRequest(0, qtd);
+		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withFilter(matchQueryBuilder).withSort(sortBuilder)
+				.withSort(sortBuilder2).withPageable(page).build();
+		
+		return iMovieRepository.search(searchQuery);
 	}
 
 }

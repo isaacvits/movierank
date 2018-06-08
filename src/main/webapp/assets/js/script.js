@@ -25,7 +25,7 @@ app
 					var previous = false;
 
 					var filter = '';
-					var generoList = [ 'Action' ];
+					var generoList = [];
 					var userQuery = '';
 
 					var shipArray = [];
@@ -56,7 +56,13 @@ app
 									// remove elemento do array de lista de
 									// genero
 									generoList.splice(pos, 1);
+									if(generoList.length == 0){
+										generoList = [''];
+									}
 								} else {
+									if(generoList.length == 0){
+										generoList = [];
+									}
 									// adicionar a class "active" ao
 									// elemento clicado
 									$(this).addClass('active');
@@ -67,7 +73,7 @@ app
 
 								// muda parametro de pesquisa
 								$('#inputGroup-sizing-default').attr(
-										'data-label', 'Gênero: ' + generoList);
+										'data-label', 'Genre: ' + generoList);
 
 								update();
 							});

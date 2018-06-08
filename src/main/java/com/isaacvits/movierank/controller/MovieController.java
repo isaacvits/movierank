@@ -14,17 +14,21 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isaacvits.movierank.importador.ImportadorMovie;
 import com.isaacvits.movierank.model.Movie;
 import com.isaacvits.movierank.service.IMovieService;
 import com.isaacvits.movierank.service.MovieService;
 
 @RestController
+@EnableScheduling
 public class MovieController {
 
 	IMovieService iMovieService = new MovieService();
@@ -34,9 +38,8 @@ public class MovieController {
 	@RequestMapping(value = "/moviesNowPlaying", method = RequestMethod.GET, headers = "Accept=application/json")
 	public List moviesNowPlaying() {
 		qtdFilmes = 8;
-		return iMovieService
-				.getListMovieImdbRateByVoteByDateByGenreByName(5.0, 8.0, 1000, 50000, null, null, "", "", qtdFilmes)
-				.getContent();
+		return iMovieService.getMoviesNowPlaying(qtdFilmes).getContent();
+
 	}
 
 	@RequestMapping(value = "/getListMovieDiscovery", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -74,18 +77,15 @@ public class MovieController {
 			ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(media, headers, HttpStatus.OK);
 			return responseEntity;
 		} catch (Exception e) {
-			try {
-				url = new URL("https://use.fontawesome.com/releases/v5.0.13/svgs/regular/file-image.svg");
-				InputStream in = url.openStream();
-				byte[] media = IOUtils.toByteArray(in);
-				headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-				ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(media, headers, HttpStatus.OK);
-				return responseEntity;
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Scheduled(cron = "0 4 15 * * *")
+	public void importar() {
+		ImportadorMovie importadorMovie = new ImportadorMovie();
+		importadorMovie.importar();
 	}
 
 }

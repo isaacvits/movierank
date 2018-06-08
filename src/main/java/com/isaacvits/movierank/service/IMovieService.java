@@ -1,7 +1,5 @@
 package com.isaacvits.movierank.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,7 +7,9 @@ import com.isaacvits.movierank.model.Movie;
 
 public interface IMovieService {
 
-	public List<Movie> getMoviesNowPlaying();
+	public Page<Movie> getMoviesNowPlaying(int qtd);
+	
+	public void setMoviesNowPlaying();
 
 	public Movie save(Movie movie);
 	

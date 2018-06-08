@@ -59,6 +59,7 @@ public class ImportadorMovie implements Job{
 			descomprimirArquivo(title, OUT_FILE_TITLE);
 			
 			readWithTsvBeanReader();
+			iMovieService.setMoviesNowPlaying();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,7 +164,6 @@ public class ImportadorMovie implements Job{
 			long tempoFinal = System.currentTimeMillis();
 			float tempoTotal = (tempoFinal - tempoInicio) / 1000;
 			System.out.println("***************** Tempo de Importação:" + tempoTotal);
-			marcarNowPlaying();
 		} finally {
 			if (beanReader != null) {
 				beanReader.close();
@@ -175,13 +175,8 @@ public class ImportadorMovie implements Job{
 		}
 	}
 
-	private void marcarNowPlaying() {
-		
-		
-	}
-
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		//importar();
+		importar();
 	}
 
 }
