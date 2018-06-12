@@ -1,6 +1,5 @@
 package com.isaacvits.movierank.service;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
-import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.json.JSONArray;
@@ -27,7 +25,6 @@ import com.isaacvits.movierank.repository.IMovieRepository;
 import com.isaacvits.movierank.repository.MovieRepository;
 import com.isaacvits.movierank.utilities.ApiUrl;
 import com.isaacvits.movierank.utilities.NetworkUtils;
-import com.isaacvits.movierank.utilities.OpenMoviesJSON;
 
 @Service
 public class MovieService implements IMovieService {

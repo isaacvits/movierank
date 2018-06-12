@@ -3,12 +3,10 @@ package com.isaacvits.movierank.controller;
 import java.io.InputStream;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isaacvits.movierank.importador.ImportadorMovie;
-import com.isaacvits.movierank.model.Movie;
 import com.isaacvits.movierank.service.IMovieService;
 import com.isaacvits.movierank.service.MovieService;
 

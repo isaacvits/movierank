@@ -21,9 +21,6 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBool;
 
@@ -32,7 +29,7 @@ import com.isaacvits.movierank.model.MovieSupport;
 import com.isaacvits.movierank.service.IMovieService;
 import com.isaacvits.movierank.service.MovieService;
 
-public class ImportadorMovie implements Job{
+public class ImportadorMovie {
 
 	private static final String TSV_FILENAME_DATA_RATING = "/home/vitor/rate.tsv";
 	private static final String TSV_FILENAME_TITLE = "/home/vitor/title.tsv";
@@ -173,10 +170,6 @@ public class ImportadorMovie implements Job{
 			}
 			writer.close();
 		}
-	}
-
-	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		importar();
 	}
 
 }
