@@ -79,7 +79,7 @@ public class MovieController {
 		return null;
 	}
 	
-	@Scheduled(cron = "0 4 15 * * *")
+	@Scheduled(cron = "0 0 1 * * *")
 	public void importar() {
 		ImportadorMovie importadorMovie = new ImportadorMovie();
 		importadorMovie.importar();
